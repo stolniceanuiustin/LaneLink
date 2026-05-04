@@ -1,0 +1,46 @@
+intersection "Complex Urban Junction" {
+    // --- Nord (Bearing 0) ---
+    lane 1 INCOMING 0;
+    lane 2 OUTGOING 0;
+
+    // --- Est (Bearing 90) ---
+    lane 3 INCOMING 90;
+    lane 4 OUTGOING 90;
+
+    // --- Sud (Bearing 180) ---
+    lane 5 INCOMING 180;
+    lane 6 OUTGOING 180;
+
+    // --- Vest (Bearing 270) ---
+    lane 7 INCOMING 270;
+    lane 8 OUTGOING 270;
+
+    // --- Connections
+    connect 1 -> 6 as "NorthSouth_Main";
+    connect 5 -> 2 as "SouthNorth_Main";
+    connect 3 -> 8 as "EastWest_Main";
+    connect 7 -> 4 as "WestEast_Main";
+
+    // --- Left hand turns 
+    connect 1 -> 4 as "NorthToEast_Left";
+    connect 5 -> 8 as "SouthToWest_Left";
+    connect 3 -> 2 as "EastToNorth_Left";
+    connect 7 -> 6 as "WestToSouth_Left";
+
+    // Semaphore phases 
+    
+    // North-South
+    phase { "NorthSouth_Main", "SouthNorth_Main" } duration 5000;
+
+    // Left from North and South
+    phase { "NorthToEast_Left", "SouthToWest_Left" } duration 3000;
+
+    // East-West
+    phase { "EastWest_Main", "WestEast_Main" } duration 5000;
+
+    // Left turns from East and West
+    phase { "EastToNorth_Left", "WestToSouth_Left" } duration 3000;
+
+    // test phase with conflicts
+    phase { "NorthSouth_Main", "EastWest_Main" } duration 2000;
+}

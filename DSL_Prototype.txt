@@ -1,0 +1,19 @@
+intersection "Intersection Name" {
+    // lane <ID> <DIRECTION> <BEARING>;
+    lane 1 INCOMING 0;
+    lane 2 OUTGOING 0;
+    lane 3 INCOMING 90;
+    lane 4 OUTGOING 90;
+    lane 5 INCOMING 180;
+    lane 6 OUTGOING 180;
+
+    // connect <FROM_ID> -> <TO_ID> as "Name";
+    connect 1 -> 4 as "NorthEast";
+    connect 1 -> 6 as "NorthSouth";
+    connect 3 -> 2 as "EastNorth";
+    connect 5 -> 4 as "SouthEast";
+
+    // phase { "ConnectionName1", "ConnectionName2", "etc.." } duration <DURATION>;
+    phase { "NorthEast", "SouthEast" } duration 5000;
+    phase { "NorthSouth", "EastNorth" } duration 4000;
+}
