@@ -1,20 +1,34 @@
 CC = gcc
-CFLAGS = -Wall -g
-LIBS = -lm -lSDL2
+CFLAGS = -Wall -g -Iinclude -Ibuild
+LIBS = -lm -lSDL2 -ll -lfl
 
 TARGET = LaneLink
 
-all: $(TARGET)
+SRCS = src/main.c src/IntersectionGraph.c src/Visualizer.c
+OBJS = $(SRCS:src/%.c=build/%.o) build/lex.yy.o build/y.tab.o
 
-y.tab.c y.tab.h: parser.y
-	yacc -d parser.y
+all: build $(TARGET)
 
-lex.yy.c: lexer.l y.tab.h
-	lex lexer.l
+build:
+	mkdir -p build
 
+build/y.tab.c build/y.tab.h: src/parser.y | build
+	yacc -d src/parser.y -b build/y
 
-$(TARGET): lex.yy.c y.tab.c IntersectionGraph.c Visualizer.c main.c 
-	$(CC) $(CFLAGS) lex.yy.c y.tab.c IntersectionGraph.c Visualizer.c main.c -o $(TARGET) $(LIBS) -ll -lfl
+build/lex.yy.c: src/lexer.l build/y.tab.h | build
+	lex -o build/lex.yy.c src/lexer.l
+
+build/y.tab.o: build/y.tab.c | build
+	$(CC) $(CFLAGS) -c $< -o $@
+
+build/lex.yy.o: build/lex.yy.c | build
+	$(CC) $(CFLAGS) -c $< -o $@
+
+build/%.o: src/%.c | build
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET) $(LIBS)
 
 clean:
-	rm -f $(TARGET) lex.yy.c y.tab.c y.tab.h
+	rm -rf build $(TARGET)
