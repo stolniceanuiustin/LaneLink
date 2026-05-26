@@ -1,0 +1,45 @@
+{
+  "name": "Complex Urban Junction",
+  "lanes": [
+    {"id": 1, "direction": 0, "bearing": 0},
+    {"id": 2, "direction": 1, "bearing": 0},
+    {"id": 3, "direction": 0, "bearing": 90},
+    {"id": 4, "direction": 1, "bearing": 90},
+    {"id": 5, "direction": 0, "bearing": 180},
+    {"id": 6, "direction": 1, "bearing": 180},
+    {"id": 7, "direction": 0, "bearing": 270},
+    {"id": 8, "direction": 1, "bearing": 270}
+  ],
+  "connections": [
+    {"id": 0, "name": "NorthSouth_Main", "from": 1, "to": 6},
+    {"id": 1, "name": "SouthNorth_Main", "from": 5, "to": 2},
+    {"id": 2, "name": "EastWest_Main", "from": 3, "to": 8},
+    {"id": 3, "name": "WestEast_Main", "from": 7, "to": 4},
+    {"id": 4, "name": "NorthToEast_Left", "from": 1, "to": 4},
+    {"id": 5, "name": "SouthToWest_Left", "from": 5, "to": 8},
+    {"id": 6, "name": "EastToNorth_Left", "from": 3, "to": 2},
+    {"id": 7, "name": "WestToSouth_Left", "from": 7, "to": 6}
+  ],
+  "phases": [
+    {
+      "duration_ms": 5000,
+      "active_connections": [1, 0]
+    },
+    {
+      "duration_ms": 3000,
+      "active_connections": [5, 4]
+    },
+    {
+      "duration_ms": 5000,
+      "active_connections": [3, 2]
+    },
+    {
+      "duration_ms": 3000,
+      "active_connections": [7, 6]
+    },
+    {
+      "duration_ms": 2000,
+      "active_connections": [2, 0]
+    }
+  ]
+}

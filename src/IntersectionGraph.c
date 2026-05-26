@@ -129,3 +129,52 @@ void calculate_all_conflicts(Intersection* intr) {
         }
     }
 }
+
+void export_intersection_to_json(Intersection* intr, const char* filename) {
+    FILE* f = fopen(filename, "w");
+    if (!f) {
+        perror("Could not open file for JSON export");
+        return;
+    }
+
+    fprintf(f, "{\n");
+    fprintf(f, "  \"name\": \"%s\",\n", intr->name);
+
+    // Lanes
+    fprintf(f, "  \"lanes\": [\n");
+    for (int i = 0; i < intr->lane_count; i++) {
+        fprintf(f, "    {\"id\": %d, \"direction\": %d, \"bearing\": %d}%s\n",
+                intr->lanes[i].id, intr->lanes[i].direction, intr->lanes[i].bearing,
+                (i < intr->lane_count - 1) ? "," : "");
+    }
+    fprintf(f, "  ],\n");
+
+    // Connections
+    fprintf(f, "  \"connections\": [\n");
+    for (int i = 0; i < intr->connection_count; i++) {
+        fprintf(f, "    {\"id\": %d, \"name\": \"%s\", \"from\": %d, \"to\": %d}%s\n",
+                intr->connections[i].id, intr->connections[i].name,
+                intr->connections[i].from->id, intr->connections[i].to->id,
+                (i < intr->connection_count - 1) ? "," : "");
+    }
+    fprintf(f, "  ],\n");
+
+    // Phases
+    fprintf(f, "  \"phases\": [\n");
+    for (int i = 0; i < intr->phase_count; i++) {
+        fprintf(f, "    {\n");
+        fprintf(f, "      \"duration_ms\": %d,\n", intr->phases[i].duration_ms);
+        fprintf(f, "      \"active_connections\": [");
+        for (int j = 0; j < intr->phases[i].connection_count; j++) {
+            fprintf(f, "%d%s", intr->phases[i].active_connections[j]->id,
+                    (j < intr->phases[i].connection_count - 1) ? ", " : "");
+        }
+        fprintf(f, "]\n");
+        fprintf(f, "    }%s\n", (i < intr->phase_count - 1) ? "," : "");
+    }
+    fprintf(f, "  ]\n");
+
+    fprintf(f, "}\n");
+    fclose(f);
+    printf("Successfully exported intersection data to %s\n", filename);
+}

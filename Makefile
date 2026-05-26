@@ -1,10 +1,10 @@
 CC = gcc
 CFLAGS = -Wall -g -Iinclude -Ibuild
-LIBS = -lm -lSDL2 -ll -lfl
+LIBS = -lm -ll -lfl
 
 TARGET = LaneLink
 
-SRCS = src/main.c src/IntersectionGraph.c src/Visualizer.c
+SRCS = src/main.c src/IntersectionGraph.c
 OBJS = $(SRCS:src/%.c=build/%.o) build/lex.yy.o build/y.tab.o
 
 all: build $(TARGET)

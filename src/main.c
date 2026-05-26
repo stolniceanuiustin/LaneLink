@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
         }
         
         calculate_all_conflicts(main_intr);
-        start_visualizer(main_intr);
+        export_intersection_to_json(main_intr, "intersection_data.json");
 
     } else {
         printf("Parsing failed.\n");

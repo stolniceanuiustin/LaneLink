@@ -65,5 +65,5 @@ void add_phase_direct(Intersection* intr, Connection** conns, int count, uint32_
 Lane* find_lane_by_id(Intersection* intr, uint32_t id);
 void calculate_all_conflicts(Intersection* intr);
 bool paths_cross(Connection* a, Connection* b);
-void start_visualizer(Intersection* intr);
+void export_intersection_to_json(Intersection* intr, const char* filename);
 #endif
