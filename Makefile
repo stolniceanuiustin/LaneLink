@@ -19,16 +19,16 @@ build/lex.yy.c: src/lexer.l build/y.tab.h | build
 	lex -o build/lex.yy.c src/lexer.l
 
 build/y.tab.o: build/y.tab.c | build
-	$(CC) $(CFLAGS) -c $< -o $@
+	gcc $(CFLAGS) -c $< -o $@
 
 build/lex.yy.o: build/lex.yy.c | build
-	$(CC) $(CFLAGS) -c $< -o $@
+	gcc $(CFLAGS) -c $< -o $@
 
 build/%.o: src/%.c | build
-	$(CC) $(CFLAGS) -c $< -o $@
+	gcc $(CFLAGS) -c $< -o $@
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET) $(LIBS)
+	gcc $(CFLAGS) $(OBJS) -o $(TARGET) $(LIBS)
 
 clean:
 	rm -rf build $(TARGET)
